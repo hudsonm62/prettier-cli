@@ -51,13 +51,13 @@ jobs:
           command: c
           files: |
             ./dist/
-          outPath: prettier-bundle.tar.gz
+          outPath: ./temp/prettier-bundle.tar.gz
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: prettier-jsbundle-${{ env.TAG_NAME }}_${{ matrix.os }}
-          path: prettier-jsbundle.tar.gz
+          path: ./temp/prettier-jsbundle.tar.gz
           if-no-files-found: error
 
       - name: 🍞 Compile Binary
@@ -70,12 +70,12 @@ jobs:
           command: c
           files: |
             ./dist/bin/
-          outPath: prettier-bin.tar.gz
+          outPath: ./temp/prettier-bin.tar.gz
 
       - uses: actions/upload-artifact@v4
         with:
           name: prettier-bin-${{ env.TAG_NAME }}_${{ matrix.os }}
-          path: prettier-bin.tar.gz
+          path: ./temp/prettier-bin.tar.gz
           if-no-files-found: error
 
       - name: Bump Action Major Tag

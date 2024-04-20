@@ -14,7 +14,7 @@ env:
 
 permissions: write-all
 concurrency:
-  group: publish-ci
+  group: publish-docker-ci
   cancel-in-progress: true
 
 jobs:
