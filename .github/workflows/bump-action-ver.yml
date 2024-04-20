@@ -13,9 +13,13 @@ env:
   TAG_NAME: ${{ github.event.inputs.TAG_NAME || github.event.release.tag_name }}
 
 permissions: write-all
-
+defaults:
+  run:
+    shell: pwsh
 jobs:
   bump-action-version:
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
