@@ -16,7 +16,7 @@ jobs:
       - name: Lint Main Dockerfile
         uses: hadolint/hadolint-action@v3.1.0
         with:
-          dockerfile: ./Dockerfile
+          dockerfile: ./docker/main.Dockerfile
 
       - name: Setup Docker
         uses: docker/setup-buildx-action@v3
