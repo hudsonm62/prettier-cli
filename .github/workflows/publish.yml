@@ -56,8 +56,8 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: prettier-jsbundle-${{ env.TAG_NAME }}_${{ matrix.os }}
-          path: ./temp/prettier-jsbundle.tar.gz
+          name: prettier-jsbundles-${{ env.TAG_NAME }}_${{ matrix.os }}
+          path: ./temp/prettier-bundle.tar.gz
           if-no-files-found: error
 
       - name: 🍞 Compile Binary
@@ -77,8 +77,3 @@ jobs:
           name: prettier-bin-${{ env.TAG_NAME }}_${{ matrix.os }}
           path: ./temp/prettier-bin.tar.gz
           if-no-files-found: error
-
-      - name: Bump Action Major Tag
-        uses: actions/publish-action@v0.3.0
-        with:
-          source-tag: ${{ env.TAG_NAME }}
