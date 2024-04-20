@@ -53,6 +53,7 @@ jobs:
       - name: Build and Push Main to DockerHub
         uses: docker/build-push-action@v5
         with:
+          file: ./docker/main.Dockerfile
           cache-from: type=gha
           cache-to: type=gha,mode=max
           push: true
@@ -137,6 +138,7 @@ jobs:
       - name: Build and Push Main to GHCR
         uses: docker/build-push-action@v5
         with:
+          file: ./docker/main.Dockerfile
           cache-from: type=gha
           cache-to: type=gha,mode=max
           push: true
