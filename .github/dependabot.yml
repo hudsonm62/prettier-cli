@@ -1,10 +1,38 @@
 version: 2
 updates:
+  - package-ecosystem: docker
+    directory: |
+      /
+      /docker
+    schedule:
+      interval: daily
+    labels:
+      - 'docker'
+      - 'dependencies'
   - package-ecosystem: npm
     directory: /
     schedule:
-      interval: weekly
+      interval: daily
+    labels:
+      - 'dependencies'
   - package-ecosystem: github-actions
     directory: /
     schedule:
-      interval: weekly
+      interval: daily
+    labels:
+      - 'automation'
+      - 'dependencies'
+  - package-ecosystem: devcontainers
+    directory: /
+    schedule:
+      interval: daily
+    labels:
+      - 'docker'
+      - 'dependencies'
+
+  - package-ecosystem: composer
+    directory: /
+    schedule:
+      interval: daily
+    labels:
+      - 'dependencies'

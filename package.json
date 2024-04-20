@@ -1,18 +1,29 @@
 {
-  "name": "@actionsx/prettier",
-  "version": "0.0.0",
-  "type": "module",
+  "name": "@hudsonm62/prettier-cli",
+  "version": "1.0.0",
+  "license": "MIT",
+  "repository": {
+    "url": "https://github.com/hudsonm62/prettier-cli"
+  },
   "scripts": {
-    "build": "ncc build index.js",
-    "check": "prettier --check .",
-    "format": "prettier --write ."
+    "package": "bun build ./index.js --compile --minify --outfile ./dist/bin/prettier",
+    "docker": "docker build -f ./docker/main.Dockerfile -t hudsonm62/prettier .",
+    "build": "bun build ./index.js --target node --minify --outfile ./dist/node-prettier.mjs",
+    "build-bun": "bun build ./index.js --target bun --minify --outfile ./dist/bun-prettier.js",
+    "lint": "bunx prettier --check .",
+    "format": "bunx prettier --write .",
+    "test": "bun test",
+    "clean": "bunx rimraf dist && bunx rimraf node_modules"
   },
   "dependencies": {
-    "@actions/core": "^1.10.0",
-    "prettier": "^3.0.0",
-    "shell-quote": "^1.7.3"
+    "@actions/core": "^1.10.1",
+    "lilconfig": "^3.1.1",
+    "prettier": "^3.2.5",
+    "shell-quote": "^1.8.1",
+    "yaml": "^2.4.1"
   },
   "devDependencies": {
-    "@vercel/ncc": "^0.36.1"
+    "@types/bun": "^1.1.0",
+    "rimraf": "^5.0.5"
   }
 }

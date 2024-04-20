@@ -1,0 +1,84 @@
+name: Publish Artifacts
+
+on:
+  release:
+    types: [released]
+  workflow_dispatch:
+    inputs:
+      TAG_NAME:
+        description: 'Tag'
+        required: true
+
+env:
+  TAG_NAME: ${{ github.event.inputs.TAG_NAME || github.event.release.tag_name }}
+
+permissions: write-all
+concurrency:
+  group: publish-ci
+  cancel-in-progress: true
+
+jobs:
+  build-artifacts:
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Bun (Node)
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      - name: Install Deps
+        run: bun install --frozen-lockfile --production
+
+      - name: Compile Bundles
+        run: |
+          bun run build
+          bun run build-bun
+
+      - name: Verify Action (and check codebase)
+        uses: ./
+        with:
+          args: --check .
+
+      - name: Compress action step
+        uses: a7ul/tar-action@v1.2.0
+        with:
+          command: c
+          files: |
+            ./dist/
+          outPath: prettier-bundle.tar.gz
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: prettier-jsbundle-${{ env.TAG_NAME }}_${{ matrix.os }}
+          path: prettier-jsbundle.tar.gz
+          if-no-files-found: error
+
+      - name: 🍞 Compile Binary
+        run: |
+          bun run package
+
+      - name: Compress action step
+        uses: a7ul/tar-action@v1.2.0
+        with:
+          command: c
+          files: |
+            ./dist/bin/
+          outPath: prettier-bin.tar.gz
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: prettier-bin-${{ env.TAG_NAME }}_${{ matrix.os }}
+          path: prettier-bin.tar.gz
+          if-no-files-found: error
+
+      - name: Bump Action Major Tag
+        uses: actions/publish-action@v0.3.0
+        with:
+          source-tag: ${{ env.TAG_NAME }}

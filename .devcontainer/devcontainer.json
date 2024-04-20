@@ -1,0 +1,17 @@
+{
+  "name": "Prettier CLI Dev (Bun Alpine)",
+  "dockerFile": "dev.Dockerfile",
+  "waitFor": "postStartCommand",
+  "postStartCommand": "bun install",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "oven.bun-vscode",
+        "esbenp.prettier-vscode",
+        "redhat.vscode-yaml",
+        "exiasr.hadolint",
+        "github.vscode-github-actions"
+      ]
+    }
+  }
+}

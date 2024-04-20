@@ -1,0 +1,58 @@
+name: Docker CI
+
+on: push
+
+jobs:
+  docker-main-ci:
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    name: Test Main Docker Builds
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Lint Main Dockerfile
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: ./Dockerfile
+
+      - name: Setup Docker
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Main Dockerfile
+        uses: docker/build-push-action@v5
+        with:
+          file: ./docker/main.Dockerfile
+          context: .
+          push: false
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  docker-bun-ci:
+    needs: docker-main-ci
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        distro: [debian, alpine]
+    name: Test Bun Docker Build
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Lint ${{ matrix.distro }} Dockerfile
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: ./docker/${{ matrix.distro }}.Dockerfile
+
+      - name: Setup Docker
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Bun Dockerfile
+        uses: docker/build-push-action@v5
+        with:
+          file: ./docker/${{ matrix.distro }}.Dockerfile
+          context: .
+          push: false

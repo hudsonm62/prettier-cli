@@ -1,12 +1,13 @@
-name: actionsx/prettier
-description: 🔨 Native, blazingly-fast Prettier CLI on Github Actions
+name: Prettier CLI
+description: 🔨 Native Prettier CLI
 branding:
-  icon: align-justify
-  color: red
+  icon: anchor
+  color: gray-dark
 inputs:
   args:
     description: Prettier CLI arguments
     required: true
+    default: --check .
 runs:
-  using: node16
-  main: dist/index.js
+  using: node20
+  main: dist/node-prettier.mjs

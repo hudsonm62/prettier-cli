@@ -10,3 +10,8 @@ yarn-error.log*
 .LSOverride
 logs
 *.log
+
+# Project
+dist/bin
+*.tar.gz
+dist/bun-prettier.js
