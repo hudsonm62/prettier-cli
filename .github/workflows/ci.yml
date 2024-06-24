@@ -20,7 +20,7 @@ jobs:
           args: --check .
 
       - name: Setup Bun (Node)
-        uses: oven-sh/setup-bun@v1
+        uses: oven-sh/setup-bun@v2
         with:
           bun-version: ${{ matrix.bun-version }}
       - name: Install Deps
@@ -43,7 +43,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Setup Bun (Node)
-        uses: oven-sh/setup-bun@v1
+        uses: oven-sh/setup-bun@v2
         with:
           bun-version: ${{ matrix.bun-version }}
       - name: Install Deps
@@ -66,7 +66,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Setup Bun (Node)
-        uses: oven-sh/setup-bun@v1
+        uses: oven-sh/setup-bun@v2
 
       - name: Fresh Rebuild
         run: |
